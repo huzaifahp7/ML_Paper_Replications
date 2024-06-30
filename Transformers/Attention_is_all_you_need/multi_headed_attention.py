@@ -46,7 +46,7 @@ class MultiHeadAttention(nn.Module):
         self.value = Prepare(d_model, heads, self.d_k, bias=True)
         
         #Softmax for attention along the time dimension for key
-        self.softmax - nn.Softmax(dim=-1)
+        self.softmax = nn.Softmax(dim=-1)
         #Output Layer
         self.output = nn.Linear(d_model, d_model)
         #Dropout Layer
@@ -123,4 +123,33 @@ class MultiHeadAttention(nn.Module):
         return self.output(x)
     
     
-    
+# # Create sample input tensors for query, key, and value
+# seq_len = 5
+# batch_size = 2
+# d_model = 8
+# heads = 2
+
+# query = torch.rand((seq_len, batch_size, d_model))
+# key = torch.rand((seq_len, batch_size, d_model))
+# value = torch.rand((seq_len, batch_size, d_model))
+# mask = torch.ones((seq_len, seq_len, batch_size))
+
+# # Create an instance of the MultiHeadAttention class
+# mha = MultiHeadAttention(heads=heads, d_model=d_model)
+
+# # Pass the sample input through the MultiHeadAttention module
+# output = mha(query=query, key=key, value=value, mask=mask)
+
+# # Ensure correct output shape
+# assert output.shape == (seq_len, batch_size, d_model), f"Expected shape {(seq_len, batch_size, d_model)}, but got {output.shape}"
+# print("Output shape is correct.")
+
+# # Retrieve the attention weights
+# attention_weights = mha.attn
+
+# # Visualize the attention weights
+# for head in range(heads):
+#     plt.matshow(attention_weights[:, :, head].cpu().detach().numpy(), cmap='viridis')
+#     plt.title(f'Attention Weights for Head {head+1}')
+#     plt.colorbar()
+#     plt.show()
